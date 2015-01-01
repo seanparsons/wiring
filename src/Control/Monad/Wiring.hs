@@ -13,7 +13,9 @@ import Control.Monad
 
 $(generateTupleElementWirables)
 
-test :: (Wirable (Int, String, Double) Double) => (Int, String, Double) -> Double
+$(generateTupleWirables)
+
+test :: (Wirable (Int, String, Double) (Double, Int)) => (Int, String, Double) -> (Double, Int)
 test = wire
 
 main :: IO ()
