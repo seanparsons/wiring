@@ -1,40 +1,40 @@
-{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TemplateHaskell #-}
 
 module Control.Monad.Wiring.TH where
 
+import Control.Monad.Wiring.Types
 import Language.Haskell.TH
 import Control.Monad
 
-class Wirable a b where
-  wire :: a -> b
-
 maxTupleSize = 20
+wirableName = mkName "Wirable"
+wireName = mkName "wire"
+aName = mkName "a"
+
+aNameForIndex :: Int -> Name
+aNameForIndex index = mkName ("a" ++ show index)
 
 generateTupleElementWirables :: Q [Dec]
-generateTupleElementWirables = fmap join $ sequence $ do
+generateTupleElementWirables = return $ do
   tupleSize <- [1..maxTupleSize]
   let tupleElements = [1..tupleSize]
   tupleElement <- tupleElements
-  let aName = mkName "a"
   let aPat = VarP aName
-  let aExp = return $ VarE aName
-  let tupleParams = return $ foldl (\working -> \x -> AppT working $ VarT $ mkName ("a" ++ show x)) (TupleT tupleSize) tupleElements
-  let tupleElementType =  return $ VarT $ mkName ("a" ++ show tupleElement)
-  let tupleLambdaParams = return $ TupP $ fmap (\x -> if x == tupleElement then aPat else WildP) tupleElements
-  return [d| instance Wirable $tupleParams $tupleElementType where wire $tupleLambdaParams = $aExp |]
+  let aExp = VarE aName
+  let tupleParams = foldl (\working -> \x -> AppT working $ VarT $ aNameForIndex x) (TupleT tupleSize) tupleElements
+  let wirableType = (AppT (AppT (VarT wirableName) tupleParams) (VarT $ aNameForIndex tupleElement))
+  let tupleElementType = VarT $ mkName ("a" ++ show tupleElement)
+  let tupleLambdaParams = TupP $ fmap (\x -> if x == tupleElement then aPat else WildP) tupleElements
+  let decls = [FunD wireName [Clause [tupleLambdaParams] (NormalB aExp) []]]
+  return $ InstanceD [] wirableType decls
 
 generateTupleWirables :: Q [Dec]
-generateTupleWirables = sequence $ do
-  tupleSize <- [2..maxTupleSize]
-  let aName = mkName "a"
-  let aPat = return $ VarP aName
-  let wirableName = mkName "Wirable"
-  let wireName = mkName "wire"
+generateTupleWirables = return $ do
+  tupleSize <- [1..maxTupleSize]
+  let aPat = VarP aName
   let tupleElements = [1..tupleSize]
-  let tupleShape = foldl (\working -> \x -> AppT working $ VarT $ mkName ("a" ++ show x)) (TupleT tupleSize) tupleElements
-  let tupleInstances = fmap (\x -> ClassP wirableName [VarT aName, VarT $ mkName ("a" ++ show x)]) tupleElements
-  let tupleConstruction = return $ TupE $ replicate tupleSize (AppE (VarE wireName) (VarE aName))
-  return $ do 
-    wireDec <- [d|wire $aPat = $tupleConstruction|]
-    return $ InstanceD tupleInstances (AppT (AppT (VarT wirableName) (VarT aName)) tupleShape) wireDec
+  let tupleShape = foldl (\working -> \x -> AppT working $ VarT $ aNameForIndex x) (TupleT tupleSize) tupleElements
+  let tupleInstances = fmap (\x -> ClassP wirableName [VarT aName, VarT $ aNameForIndex x]) tupleElements
+  let tupleConstruction = TupE $ replicate tupleSize (AppE (VarE wireName) (VarE aName))
+  let decls = [FunD wireName [Clause [aPat] (NormalB tupleConstruction) []]]
+  return $ InstanceD tupleInstances (AppT (AppT (VarT wirableName) (VarT aName)) tupleShape) decls
