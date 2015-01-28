@@ -21,7 +21,7 @@ library
                        Control.Monad.Trans.RWS.Strict.Wiring
 
 test-suite tests
-  build-depends:       base >=4.6 && <4.7,
+  build-depends:       base >=4.6 && <4.8,
                        template-haskell >= 2.7 && < 2.11,
                        transformers,
                        rwst-wiring,
