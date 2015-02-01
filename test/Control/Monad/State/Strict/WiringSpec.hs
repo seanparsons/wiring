@@ -7,7 +7,6 @@ import Test.Hspec.QuickCheck
 import Test.QuickCheck
 import Data.Functor.Identity
 import Data.Monoid
-import Control.Monad.Wiring
 import Control.Monad.State.Strict
 import Control.Monad.State.Strict.Wiring
 import qualified Control.Monad.RWS.Lazy as RWSL
