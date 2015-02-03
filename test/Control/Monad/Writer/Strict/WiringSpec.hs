@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Control.Monad.Trans.Writer.Lazy.WiringSpec where
+module Control.Monad.Writer.Strict.WiringSpec where
 
 import Test.Hspec
 import Test.Hspec.QuickCheck
@@ -8,14 +8,14 @@ import Test.QuickCheck
 import Data.Functor.Identity
 import Data.Monoid
 import Control.Monad.Wiring
-import Control.Monad.Trans.Writer.Lazy
-import Control.Monad.Trans.Writer.Lazy.Wiring
+import Control.Monad.Writer.Strict
+import Control.Monad.Writer.Strict.Wiring
 import qualified Control.Monad.Trans.RWS.Lazy as RWSL
 import qualified Control.Monad.Trans.RWS.Strict as RWSS
 
 spec :: Spec
 spec = do
-  describe "Control.Monad.Trans.Writer.Lazy" $ do
+  describe "Control.Monad.Writer.Strict" $ do
     prop "Wirable" $ do
       (\pair -> 
         let writerT   = WriterT $ Identity pair :: WriterT (String, Int) Identity Double

@@ -25,12 +25,12 @@ spec = do
     prop "Promote to Lazy RWST" $ do
       (\pair -> \r -> \s ->
         let writerT   = WriterT $ Identity pair :: WriterT (String, Int) Identity Double
-            promoted  = wire $ writerT :: RWSL.RWST Double (String, Int) String Identity Double
+            promoted  = wire $ writerT :: RWSL.RWST Double String String Identity Double
             result    = runIdentity $ RWSL.runRWST promoted r s
-        in  result `shouldBe` (fst pair, s, snd pair))
+        in  result `shouldBe` (fst pair, s, fst $ snd pair))
     prop "Promote to Strict RWST" $ do
       (\pair -> \r -> \s ->
         let writerT   = WriterT $ Identity pair :: WriterT (String, Int) Identity Double
-            promoted  = wire $ writerT :: RWSS.RWST Double (String, Int) String Identity Double
+            promoted  = wire $ writerT :: RWSS.RWST Double String String Identity Double
             result    = runIdentity $ RWSS.runRWST promoted r s
-        in  result `shouldBe` (fst pair, s, snd pair))
+        in  result `shouldBe` (fst pair, s, fst $ snd pair))
