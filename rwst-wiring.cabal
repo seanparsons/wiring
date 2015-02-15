@@ -1,12 +1,15 @@
 name:                  rwst-wiring
-version:               0.1.0.0
+version:               0.2.0.0
 author:                Sean Parsons
 maintainer:            git@futurenotfound.com
+stability:             provisional
+homepage:              http://github.com/seanparsons/rwst-wiring/
+bug-reports:           http://github.com/seanparsons/rwst-wiring/issues
 build-type:            Simple
 cabal-version:         >=1.10
+description
 
-library
-  build-depends:       base >=4.6 && <4.8,
+  build-depends:       base >=4.6 && <4.9,
                        template-haskell >= 2.7 && < 2.11,
                        transformers,
                        mtl
