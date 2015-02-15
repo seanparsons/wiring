@@ -9,13 +9,14 @@ build-type:            Simple
 cabal-version:         >=1.10
 description:           
   This package provides the ability to join up or wire instances of types
-  (such as ReaderT/WriterT/RWST)
+  (such as ReaderT/WriterT/RWST) with some semi-automatic conversions.
 
 
 source-repository head
   type:                git
   location:            git://github.com/seanparsons/wiring.git
 
+library
   build-depends:       base >=4.6 && <4.9,
                        template-haskell >= 2.7 && < 2.11,
                        transformers,
