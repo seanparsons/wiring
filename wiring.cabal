@@ -1,5 +1,5 @@
 name:                  wiring
-version:               0.2.0.0
+version:               0.2.0.1
 author:                Sean Parsons
 category:              Data
 license:               BSD3
@@ -42,6 +42,8 @@ library
                        Control.Monad.Writer.Strict.Wiring,
                        Control.Monad.RWS.Lazy.Wiring,
                        Control.Monad.RWS.Strict.Wiring
+  other-modules:       Control.Monad.Wiring.Types,
+                       Control.Monad.Wiring.TH
 
 test-suite tests
   build-depends:       base >=4.6 && <4.8,
