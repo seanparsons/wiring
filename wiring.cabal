@@ -1,6 +1,8 @@
 name:                  wiring
 version:               0.2.0.0
 author:                Sean Parsons
+license:               BSD3
+license-file:          LICENSE
 maintainer:            git@futurenotfound.com
 stability:             provisional
 homepage:              http://github.com/seanparsons/wiring/
