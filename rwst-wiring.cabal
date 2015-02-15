@@ -1,13 +1,20 @@
-name:                  rwst-wiring
+name:                  wiring
 version:               0.2.0.0
 author:                Sean Parsons
 maintainer:            git@futurenotfound.com
 stability:             provisional
-homepage:              http://github.com/seanparsons/rwst-wiring/
-bug-reports:           http://github.com/seanparsons/rwst-wiring/issues
+homepage:              http://github.com/seanparsons/wiring/
+bug-reports:           http://github.com/seanparsons/wiring/issues
 build-type:            Simple
 cabal-version:         >=1.10
-description
+description:           
+  This package provides the ability to join up or wire instances of types
+  (such as ReaderT/WriterT/RWST)
+
+
+source-repository head
+  type:                git
+  location:            git://github.com/seanparsons/wiring.git
 
   build-depends:       base >=4.6 && <4.9,
                        template-haskell >= 2.7 && < 2.11,
