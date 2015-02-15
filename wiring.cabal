@@ -1,6 +1,7 @@
 name:                  wiring
 version:               0.2.0.0
 author:                Sean Parsons
+category:              Data
 license:               BSD3
 license-file:          LICENSE
 maintainer:            git@futurenotfound.com
@@ -9,6 +10,7 @@ homepage:              http://github.com/seanparsons/wiring/
 bug-reports:           http://github.com/seanparsons/wiring/issues
 build-type:            Simple
 cabal-version:         >=1.10
+synopsis:              Wiring, promotion and demotion of types.
 description:           
   This package provides the ability to join up or wire instances of types
   (such as ReaderT/WriterT/RWST) with some semi-automatic conversions.
