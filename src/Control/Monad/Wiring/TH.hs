@@ -40,8 +40,8 @@ generateTupleWirables = return $ do
   let aPat = VarP aName
   let tupleElements = [1..tupleSize]
   let tupleShape = foldl (\working -> \x -> AppT working $ VarT $ aNameForIndex x) (TupleT tupleSize) tupleElements
-#if MIN_VERSION_base(4,9,0)
-  let tupleInstances = fmap (\x -> foldl' AppT (ConT wirableName) [VarT aName, VarT $ aNameForIndex x]) tupleElements
+#if MIN_VERSION_template_haskell(2,10,0)
+  let tupleInstances = fmap (\x -> foldl AppT (ConT wirableName) [VarT aName, VarT $ aNameForIndex x]) tupleElements
 #else
   let tupleInstances = fmap (\x -> ClassP wirableName [VarT aName, VarT $ aNameForIndex x]) tupleElements
 #endif

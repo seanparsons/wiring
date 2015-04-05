@@ -5,6 +5,8 @@ module Control.Monad.Trans.Writer.Strict.Wiring(
   wiredTell
 ) where
 
+import Data.Monoid()
+import Data.Monoid(Monoid)
 import Control.Monad.Wiring
 import Control.Monad.Trans.Writer.Strict
 import qualified Control.Monad.Trans.RWS.Lazy as RWSL
@@ -19,5 +21,5 @@ instance (Wirable w1 w2, Functor f) => Wirable (WriterT w1 f a) (RWSL.RWST r w2 
 instance (Wirable w1 w2, Functor f) => Wirable (WriterT w1 f a) (RWSS.RWST r w2 s f a) where
   wire wrtr = RWSS.RWST $ (\_ -> \s -> fmap (\(a, w) -> (a, s, wire w)) $ runWriterT wrtr)
 
-wiredTell :: (Monad m, Wirable w1 w2) => w1 -> WriterT w2 m ()
+wiredTell :: (Monoid w2, Monad m, Wirable w1 w2) => w1 -> WriterT w2 m ()
 wiredTell = tell . wire

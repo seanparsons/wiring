@@ -31,6 +31,7 @@ library
   ghc-options:         -rtsopts
                        -Wall
                        -fno-warn-orphans
+                       -fno-warn-unused-imports
   exposed-modules:     Control.Monad.Wiring,
                        Control.Monad.Trans.Reader.Wiring,
                        Control.Monad.Trans.State.Lazy.Wiring,
@@ -64,5 +65,6 @@ test-suite tests
   ghc-options:         -rtsopts
                        -Wall
                        -fno-warn-orphans
+                       -fno-warn-unused-imports
   hs-source-dirs:      test,
                        src
