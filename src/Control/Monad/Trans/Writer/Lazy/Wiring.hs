@@ -1,7 +1,8 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 
 module Control.Monad.Trans.Writer.Lazy.Wiring(
-  Wirable(..)
+  Wirable(..),
+  wiredTell
 ) where
 
 import Control.Monad.Wiring
@@ -17,3 +18,6 @@ instance (Wirable w1 w2, Functor f) => Wirable (WriterT w1 f a) (RWSL.RWST r w2 
 
 instance (Wirable w1 w2, Functor f) => Wirable (WriterT w1 f a) (RWSS.RWST r w2 s f a) where
   wire writer = RWSS.RWST $ (\r -> \s -> fmap (\(a, w) -> (a, s, wire w)) $ runWriterT writer)
+
+wiredTell :: (Monad m, Wirable w1 w2) => w1 -> WriterT w2 m ()
+wiredTell = tell . wire
