@@ -10,7 +10,6 @@ module Control.Monad.Wiring(
 
 import Control.Monad.Wiring.TH
 import Control.Monad.Wiring.Types
-import Control.Monad
 
 $(generateTupleElementWirables)
 

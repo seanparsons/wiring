@@ -15,10 +15,10 @@ instance (Wirable r1 r2) => Wirable (ReaderT r2 f a) (ReaderT r1 f a) where
   wire = withReaderT wire
 
 instance (Monoid w, Functor f, Wirable r1 r2) => Wirable (ReaderT r2 f a) (RWSL.RWST r1 w s f a) where
-  wire reader = RWSL.RWST $ (\r -> \s -> fmap (\a -> (a, s, mempty)) $ runReaderT (withReaderT wire reader) r)
+  wire rdr = RWSL.RWST $ (\r -> \s -> fmap (\a -> (a, s, mempty)) $ runReaderT (withReaderT wire rdr) r)
 
 instance (Monoid w, Functor f, Wirable r1 r2) => Wirable (ReaderT r2 f a) (RWSS.RWST r1 w s f a) where
-  wire reader = RWSS.RWST $ (\r -> \s -> fmap (\a -> (a, s, mempty)) $ runReaderT (withReaderT wire reader) r)
+  wire rdr = RWSS.RWST $ (\r -> \s -> fmap (\a -> (a, s, mempty)) $ runReaderT (withReaderT wire rdr) r)
 
 wiredAsk :: (Monad m, Functor m, Wirable r1 r2) => ReaderT r1 m r2
 wiredAsk = fmap wire ask

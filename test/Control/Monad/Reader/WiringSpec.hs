@@ -4,13 +4,13 @@ module Control.Monad.Reader.WiringSpec where
 
 import Test.Hspec
 import Test.Hspec.QuickCheck
-import Test.QuickCheck
+import Test.QuickCheck()
 import Data.Functor.Identity
 import Data.Monoid
 import Control.Monad.Wiring
 import Control.Monad.Reader
 import Control.Monad.Reader.Wiring
-import Control.Monad.RWS.Strict.Wiring(Wirable(..))
+import Control.Monad.RWS.Strict.Wiring()
 import qualified Control.Monad.RWS.Lazy as RWSL
 import qualified Control.Monad.RWS.Strict as RWSS
 
@@ -26,7 +26,7 @@ userLookup :: Int -> ReaderT (Resource1, Database1) Identity User
 userLookup userId = ReaderT (\_ -> Identity $ User ("testuser" ++ show userId))
 
 ordersLookup :: Int -> ReaderT (Database2, Resource1) Identity [String]
-ordersLookup userId = ReaderT (\_ -> Identity $ ["Cake"])
+ordersLookup _ = ReaderT (\_ -> Identity $ ["Cake"])
 
 writeUserToWriter :: User -> RWSS.RWST () [User] () Identity ()
 writeUserToWriter user = RWSS.tell [user]
@@ -58,19 +58,19 @@ spec = do
     describe "Wirable" $ do
       prop "wire" $ do
         (\r -> 
-          let readerT   = ReaderT (\r -> Identity $ show r) :: ReaderT Double Identity String
+          let readerT   = ReaderT (\ir -> Identity $ show ir) :: ReaderT Double Identity String
               promoted  = wire $ readerT :: ReaderT (Double, Char) Identity String
               result    = runIdentity $ runReaderT promoted $ r
           in  result `shouldBe` (show $ fst r))
       prop "Promote to Lazy RWST" $ do
         (\r -> \s ->
-          let readerT   = ReaderT (\r -> Identity $ show r) :: ReaderT Double Identity String
+          let readerT   = ReaderT (\ir -> Identity $ show ir) :: ReaderT Double Identity String
               promoted  = wire $ readerT :: RWSL.RWST Double String Double Identity String
               result    = runIdentity $ RWSL.runRWST promoted r s
           in  result `shouldBe` (show r, s, mempty))
       prop "Promote to Strict RWST" $ do
         (\r -> \s ->
-          let readerT   = ReaderT (\r -> Identity $ show r) :: ReaderT Double Identity String
+          let readerT   = ReaderT (\ir -> Identity $ show ir) :: ReaderT Double Identity String
               promoted  = wire $ readerT :: RWSS.RWST Double String Double Identity String
               result    = runIdentity $ RWSS.runRWST promoted r s
           in  result `shouldBe` (show r, s, mempty))
