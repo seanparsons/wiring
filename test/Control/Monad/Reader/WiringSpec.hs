@@ -47,30 +47,39 @@ composedRWSTLookup userId = do
 spec :: Spec
 spec = do
   describe "Control.Monad.Reader.Wiring" $ do
-    prop "Wirable" $ do
-      (\r -> 
-        let readerT   = ReaderT (\r -> Identity $ show r) :: ReaderT Double Identity String
-            promoted  = wire $ readerT :: ReaderT (Double, Char) Identity String
-            result    = runIdentity $ runReaderT promoted $ r
-        in  result `shouldBe` (show $ fst r))
-    prop "Promote to Lazy RWST" $ do
-      (\r -> \s ->
-        let readerT   = ReaderT (\r -> Identity $ show r) :: ReaderT Double Identity String
-            promoted  = wire $ readerT :: RWSL.RWST Double String Double Identity String
-            result    = runIdentity $ RWSL.runRWST promoted r s
-        in  result `shouldBe` (show r, s, mempty))
-    prop "Promote to Strict RWST" $ do
-      (\r -> \s ->
-        let readerT   = ReaderT (\r -> Identity $ show r) :: ReaderT Double Identity String
-            promoted  = wire $ readerT :: RWSS.RWST Double String Double Identity String
-            result    = runIdentity $ RWSS.runRWST promoted r s
-        in  result `shouldBe` (show r, s, mempty))
-    prop "Example of basic reader wiring" $ do
-      (\userId -> 
-        let result = runIdentity $ runReaderT (composedLookup userId) (Resource1, Database1, Database2)
-        in  result `shouldBe` (describeOrders (User ("testuser" ++ show userId)) ["Cake"]))
-    prop "Example of ReaderT being promoted to RWST" $ do
-      (\userId -> 
-        let result = runIdentity $ RWSS.runRWST (composedRWSTLookup userId) (Resource1, Database1, Database2) ()
-            user   = User ("testuser" ++ show userId)
-        in  result `shouldBe` ((describeOrders user ["Cake"]), (), [user]))
+    describe "wiredAsk" $ do
+      prop "Compose wire and ask" $ do
+        (\r -> 
+          let readerT   = (do
+                            (i :: Int) <- wiredAsk
+                            return i) :: ReaderT (Double, Int) Identity Int
+              result    = runIdentity $ runReaderT readerT $ r
+          in  result `shouldBe` (snd r))
+    describe "Wirable" $ do
+      prop "wire" $ do
+        (\r -> 
+          let readerT   = ReaderT (\r -> Identity $ show r) :: ReaderT Double Identity String
+              promoted  = wire $ readerT :: ReaderT (Double, Char) Identity String
+              result    = runIdentity $ runReaderT promoted $ r
+          in  result `shouldBe` (show $ fst r))
+      prop "Promote to Lazy RWST" $ do
+        (\r -> \s ->
+          let readerT   = ReaderT (\r -> Identity $ show r) :: ReaderT Double Identity String
+              promoted  = wire $ readerT :: RWSL.RWST Double String Double Identity String
+              result    = runIdentity $ RWSL.runRWST promoted r s
+          in  result `shouldBe` (show r, s, mempty))
+      prop "Promote to Strict RWST" $ do
+        (\r -> \s ->
+          let readerT   = ReaderT (\r -> Identity $ show r) :: ReaderT Double Identity String
+              promoted  = wire $ readerT :: RWSS.RWST Double String Double Identity String
+              result    = runIdentity $ RWSS.runRWST promoted r s
+          in  result `shouldBe` (show r, s, mempty))
+      prop "Example of basic reader wiring" $ do
+        (\userId -> 
+          let result = runIdentity $ runReaderT (composedLookup userId) (Resource1, Database1, Database2)
+          in  result `shouldBe` (describeOrders (User ("testuser" ++ show userId)) ["Cake"]))
+      prop "Example of ReaderT being promoted to RWST" $ do
+        (\userId -> 
+          let result = runIdentity $ RWSS.runRWST (composedRWSTLookup userId) (Resource1, Database1, Database2) ()
+              user   = User ("testuser" ++ show userId)
+          in  result `shouldBe` ((describeOrders user ["Cake"]), (), [user]))
