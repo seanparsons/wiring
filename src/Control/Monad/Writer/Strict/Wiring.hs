@@ -1,7 +1,6 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 
 module Control.Monad.Writer.Strict.Wiring(
-  Wirable(..),
   wiredTell
 ) where
 

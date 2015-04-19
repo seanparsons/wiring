@@ -1,8 +1,6 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 
-module Control.Monad.Trans.State.Lazy.Wiring(
-  Wirable(..)
-) where
+module Control.Monad.Trans.State.Lazy.Wiring() where
 
 import Data.Monoid
 import Control.Monad.Wiring

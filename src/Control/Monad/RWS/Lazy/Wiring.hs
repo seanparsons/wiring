@@ -1,8 +1,6 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 
-module Control.Monad.RWS.Lazy.Wiring(
-  Wirable(..)
-) where
+module Control.Monad.RWS.Lazy.Wiring() where
 
 import Control.Monad.Wiring
 import Control.Monad.RWS.Lazy

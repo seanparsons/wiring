@@ -1,8 +1,6 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 
-module Control.Monad.State.Strict.Wiring(
-  Wirable(..)
-) where
+module Control.Monad.State.Strict.Wiring() where
 
 import Data.Monoid
 import Control.Monad.Wiring

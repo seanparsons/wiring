@@ -1,7 +1,6 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 
 module Control.Monad.Writer.Lazy.Wiring(
-  Wirable(..),
   wiredTell
 ) where
 
