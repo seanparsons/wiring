@@ -48,3 +48,10 @@ generateTupleWirables = return $ do
   let tupleConstruction = TupE $ replicate tupleSize (AppE (VarE wireName) (VarE aName))
   let decls = [FunD wireName [Clause [aPat] (NormalB tupleConstruction) []]]
   return $ InstanceD tupleInstances (AppT (AppT (ConT wirableName) (VarT aName)) tupleShape) decls
+
+generateFunctionTuplingWirables :: Q [Dec]
+generateFunctionTuplingWirables = do
+  let tupleSize = [1..maxTupleSize]
+  let functionOfN n =
+  let tupledFunction n =
+  traverse (\n -> (appT (appT (conT wirableName) (functionOfN n)) (tupledFunction n))) tupleSize
