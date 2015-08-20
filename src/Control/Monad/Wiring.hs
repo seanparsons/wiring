@@ -13,3 +13,7 @@ import Control.Monad.Wiring.Types
 $(generateTupleElementWirables)
 
 $(generateTupleWirables)
+
+$(generateFunctionTuplingWirables)
+
+$(generateFunctionUntuplingWirables)
