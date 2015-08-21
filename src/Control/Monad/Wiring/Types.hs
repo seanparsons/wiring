@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses, FlexibleInstances #-}
+{-# LANGUAGE MultiParamTypeClasses, FlexibleInstances, IncoherentInstances #-}
 
 module Control.Monad.Wiring.Types(
     Wirable,
