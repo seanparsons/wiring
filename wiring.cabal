@@ -1,5 +1,5 @@
 name:                  wiring
-version:               0.4.1
+version:               0.4.2
 author:                Sean Parsons
 category:              Data
 license:               BSD3
@@ -69,6 +69,7 @@ library
                        Control.Monad.Trans.RWS.Lazy.Wiring,
                        Control.Monad.Trans.RWS.Strict.Wiring,
                        Control.Monad.Reader.Wiring,
+                       Control.Monad.Reader.Class.Wiring,
                        Control.Monad.State.Lazy.Wiring,
                        Control.Monad.State.Strict.Wiring,
                        Control.Monad.Writer.Lazy.Wiring,
