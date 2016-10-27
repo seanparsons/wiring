@@ -63,7 +63,11 @@ generateTupleElementWirables = return $ do
   let wirableType = (AppT (AppT (ConT wirableName) tupleParams) (VarT $ aNameForIndex tupleElement))
   let tupleLambdaParams = TupP $ fmap (\x -> if x == tupleElement then aPat else WildP) tupleElements
   let decls = [FunD wireName [Clause [tupleLambdaParams] (NormalB aExp) []]]
+#if MIN_VERSION_template_haskell(2,11,0)
+  return $ InstanceD Nothing [] wirableType decls
+#else
   return $ InstanceD [] wirableType decls
+#endif
 
 generateTupleWirables :: Q [Dec]
 generateTupleWirables = return $ do
@@ -78,7 +82,11 @@ generateTupleWirables = return $ do
 #endif
   let tupleConstruction = TupE $ replicate tupleSize (AppE (VarE wireName) (VarE aName))
   let decls = [FunD wireName [Clause [aPat] (NormalB tupleConstruction) []]]
+#if MIN_VERSION_template_haskell(2,11,0)
+  return $ InstanceD Nothing tupleInstances (AppT (AppT (ConT wirableName) (VarT aName)) tupleShape) decls
+#else
   return $ InstanceD tupleInstances (AppT (AppT (ConT wirableName) (VarT aName)) tupleShape) decls
+#endif
 
 generateFunctionTuplingWirables :: Q [Dec]
 generateFunctionTuplingWirables = do
