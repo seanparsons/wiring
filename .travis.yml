@@ -5,8 +5,20 @@ sudo: false
 matrix:
   include:
   - env: GHCVER=7.8.4 STACK_YAML=stack-7.8.yaml
+    addons:
+      apt:
+        packages:
+        - libgmp3-dev
   - env: GHCVER=7.10.3 STACK_YAML=stack-7.10.yaml
+    addons:
+      apt:
+        packages:
+        - libgmp3-dev
   - env: GHCVER=8.0.1 STACK_YAML=stack-8.0.yaml
+    addons:
+      apt:
+        packages:
+        - libgmp3-dev
 
 before_install:
   - mkdir -p ~/.local/bin
