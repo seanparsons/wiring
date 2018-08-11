@@ -1,6 +1,5 @@
 language: nix
 env:
-  - GHC_VERSION=ghc7103
   - GHC_VERSION=ghc802
   - GHC_VERSION=ghc822
   - GHC_VERSION=ghc843
