@@ -1,5 +1,5 @@
 name:                  wiring
-version:               0.5.0
+version:               0.5.1
 author:                Sean Parsons
 category:              Data
 license:               BSD3
@@ -49,8 +49,8 @@ source-repository head
   location:            git://github.com/seanparsons/wiring.git
 
 library
-  build-depends:       base >=4.7 && <4.10,
-                       template-haskell >= 2.7 && < 2.12,
+  build-depends:       base >=4.7 && <4.12,
+                       template-haskell >= 2.7 && < 2.14,
                        transformers,
                        mtl
   hs-source-dirs:      src
@@ -79,8 +79,8 @@ library
                        Control.Monad.Wiring.TH
 
 test-suite tests
-  build-depends:       base >=4.7 && <4.10,
-                       template-haskell >= 2.7 && < 2.12,
+  build-depends:       base >=4.7 && <4.12,
+                       template-haskell >= 2.7 && < 2.14,
                        transformers,
                        mtl,
                        QuickCheck -any,
