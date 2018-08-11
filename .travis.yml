@@ -5,5 +5,5 @@ env:
   - GHC_VERSION=ghc822
   - GHC_VERSION=ghc843
 script:
-  - echo '$GHC_VERSION'
+  - echo $GHC_VERSION
   - nix-build --expr '(import ./default.nix {compiler = "$GHC_VERSION";})'
